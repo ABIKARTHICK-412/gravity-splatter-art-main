@@ -4,7 +4,7 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ command }) => ({
-  base: command === 'serve' ? '/' : '/gravity-splatter-art-main/',
+  base: '/gravity-splatter-art/',
   server: {
     host: "::",
     port: 8080,
