@@ -10,7 +10,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+        with:
+          fetch-depth: 0  # Important for deployment history
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -18,7 +20,7 @@ jobs:
           
       - name: Install dependencies
         run: npm ci
-        
+      
       - name: Build project
         run: npm run build
         
@@ -27,3 +29,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+          full_commit_message: "Deploy: ${{ github.sha }}"
+          force_orphan: true  # Ensures clean deployment
+          keep_files: false    # Remove previous files
