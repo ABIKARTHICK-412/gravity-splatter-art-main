@@ -11,24 +11,33 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Important for deployment history
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
           
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --prefer-offline
       
       - name: Build project
         run: npm run build
         
+      - name: Verify build output
+        run: |
+          ls -la dist
+          [ -f dist/index.html ] || exit 1
+          
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v3.9.3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          deploy_key: ${{ secrets.DEPLOY_TOKEN }}
           publish_dir: ./dist
-          full_commit_message: "Deploy: ${{ github.sha }}"
-          force_orphan: true  # Ensures clean deployment
-          keep_files: false    # Remove previous files
+          user_name: 'GitHub Actions Bot'
+          user_email: 'github-actions@users.noreply.github.com'
+          full_commit_message: 'Deploy: ${{ github.sha }}'
+          force_orphan: true
+          enable_jekyll: false
+          cname: yourdomain.com # Add if you have a custom domain
