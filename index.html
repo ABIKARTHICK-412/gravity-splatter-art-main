@@ -21,4 +21,20 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
+  <!-- Add this base tag -->
+  <base href="/gravity-splatter-art-main/">
+  
+  <!-- Add these cache-control tags -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  
+  <!-- Add this script for path detection -->
+  <script>
+    // Fix for GitHub Pages subpath routing
+    const pathSegments = window.location.pathname.split('/');
+    if (pathSegments[1] === 'gravity-splatter-art-main') {
+      sessionStorage.setItem('basePath', '/gravity-splatter-art-main/');
+    }
+  </script>
 </html>
